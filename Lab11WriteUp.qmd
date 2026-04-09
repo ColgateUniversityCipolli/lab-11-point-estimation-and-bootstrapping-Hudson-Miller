@@ -353,6 +353,8 @@ data |>
   labs(x = "Sample Size (n)", y = "Value", color = "Estimator")
 ```
 
+We can see from the plot of the distributions converging (@fig-n), the numerical summary (@tbl-n), and the plot of the metrics improving with $n$ (@fig-metrics), that a larger sample size will make our metrics better.
+
 ## Simulation
 You have written code to draw a random sample of various sizes from each distribution, and to calculate and store the calculated estimates. Rework your code to produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do you have a guess about their distribution? Ensure to set your randomization seed. 
 
