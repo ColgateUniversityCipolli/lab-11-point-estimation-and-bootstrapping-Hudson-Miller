@@ -133,7 +133,7 @@ Sn0b = c(0)
 p = (5-sqrt(21))/10
 
   for(i in 1:1000){
-    rand = rbinom(n = 50, size = n, prob = p)
+    rand = rbinom(n = n, size = 50, prob = p)
     mean = mean(rand)
     Sn1b[i] = var(rand)
     Sn0b[i] = ((n-1)/n)*var(rand)
@@ -188,7 +188,7 @@ data = tibble(
 #| label: fig-estimators
 #| fig-cap: Distributions of Variance Estimators
 ggplot(data, aes(x = Estimate, color = Estimator, fill = Estimator)) +
-  geom_density(alpha = 0.5) +
+  geom_density(alpha = 0) +
   geom_vline(xintercept = 2, linetype = "dashed") +
   facet_wrap(~ Distribution, ncol = 2) +
   theme_bw() +
@@ -221,8 +221,100 @@ Consider the effect of the sample size have on these results. Provide a graphica
 **Solution**
 
 ```{r}
+set.seed(7272)
+
+huge.func = function(n){
+
+# Poisson:
+
+pois = c(0)
+Sn1p = c(0) 
+Sn0p = c(0)
+
+  for(i in 1:1000){
+    rand = rpois(n = n, lambda = 2)
+    mean = mean(rand)
+    Sn1p[i] = var(rand)
+    Sn0p[i] = ((n-1)/n)*var(rand)
+  }
 
 
+# Binomial:
+
+binom = c(0)
+Sn1b = c(0)
+Sn0b = c(0)
+p = (5-sqrt(21))/10
+
+  for(i in 1:1000){
+    rand = rbinom(n = n, size = 50, prob = p)
+    mean = mean(rand)
+    Sn1b[i] = var(rand)
+    Sn0b[i] = ((n-1)/n)*var(rand)
+  }
+
+# Normal:
+
+normal = c(0)
+Sn1n = c(0)
+Sn0n = c(0)
+
+  for(i in 1:1000){
+    rand = rnorm(n = n, mean = 0, sd = sqrt(2))
+    mean = mean(rand)
+    Sn1n[i] = var(rand)
+    Sn0n[i] = ((n-1)/n)*var(rand)
+  }
+
+# Exponential:
+
+exp = c(0)
+Sn1e = c(0)
+Sn0e = c(0)
+p = (5-sqrt(21))/10
+
+  for(i in 1:1000){
+    rand = rexp(n = n, rate = 1/sqrt(2))
+    mean = mean(rand)
+    Sn1e[i] = var(rand)
+    Sn0e[i] = ((n-1)/n)*var(rand)
+  }
+  return(
+  tibble(
+    Sn1 = c(Sn1p, Sn1b, Sn1n, Sn1e),
+    Sn0 = c(Sn0p, Sn0b, Sn0n, Sn0e),
+    Distribution = rep(c("Poisson", "Binomial", "Normal", "Exponential"), each = 1000),
+    n = n
+  )
+)
+}
+
+```
+
+```{r}
+# Create tibble: 
+
+data = map(c(20, 50, 100, 500), huge.func) |> list_rbind() |>
+  pivot_longer(c(Sn1, Sn0), names_to = "Estimator", values_to = "Estimate") |>
+  mutate(Estimator = case_when(
+    Estimator == "Sn1" ~ "$S^2_{n-1}$" ,
+    Estimator == "Sn0" ~ "$S^2_{n}$"
+  ))
+
+```
+
+```{r}
+#| label: fig-n
+#| fig-cap: Effect of n on Estimators
+
+data |>
+
+ggplot(aes(x = Estimate, color = Distribution, linetype = Estimator)) +
+  geom_density() +
+  geom_vline(xintercept = 2, linetype = "dashed") +
+  facet_wrap(~ n, ncol = 2) +
+  theme_bw() +
+  labs(x = "Estimate", y = "Density", color = "Distribution", linetype = "Estimator")
 ```
 
 ## Simulation
