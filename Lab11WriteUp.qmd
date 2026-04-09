@@ -314,7 +314,43 @@ ggplot(aes(x = Estimate, color = Distribution, linetype = Estimator)) +
   geom_vline(xintercept = 2, linetype = "dashed") +
   facet_wrap(~ n, ncol = 2) +
   theme_bw() +
+  theme(panel.spacing.x = unit(1, "cm")) +
   labs(x = "Estimate", y = "Density", color = "Distribution", linetype = "Estimator")
+```
+
+```{r}
+#| label: tbl-n
+#| tbl-cap: Summary of Sample Size Effect on Estimators
+data |> 
+  group_by(Estimator, n) |>
+  summarize(
+    Bias = mean(Estimate)-2,
+    Precision = 1/var(Estimate),
+    MSE = Bias^2 + var(Estimate)
+  ) |>
+
+knitr::kable(digits = 3)
+```
+
+
+
+```{r}
+#| label: fig-metrics
+#| fig-cap: Metrics vs Sample Size
+data |> 
+  group_by(Estimator, n) |>
+  summarise(
+    Bias      = abs(mean(Estimate) - 2),
+    Precision = 1 / var(Estimate),
+    MSE       = Bias^2 + var(Estimate)
+  ) |>
+  pivot_longer(c(Bias, Precision, MSE), names_to = "Metric", values_to = "Value") |>
+  ggplot(aes(x = n, y = Value, color = Estimator)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ Metric, scales = "free_y", ncol = 1) +
+  theme_bw() +
+  labs(x = "Sample Size (n)", y = "Value", color = "Estimator")
 ```
 
 ## Simulation
