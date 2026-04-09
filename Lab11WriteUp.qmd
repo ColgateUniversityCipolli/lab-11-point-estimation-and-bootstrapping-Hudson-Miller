@@ -187,13 +187,13 @@ data = tibble(
 ```{r}
 #| label: fig-estimators
 #| fig-cap: Distributions of Variance Estimators
-ggplot(data, aes(x = Estimate, fill = Estimator)) +
+ggplot(data, aes(x = Estimate, color = Estimator, fill = Estimator)) +
   geom_density(alpha = 0.5) +
   geom_vline(xintercept = 2, linetype = "dashed") +
   facet_wrap(~ Distribution, ncol = 2) +
   theme_bw() +
   theme(panel.spacing.x = unit(1, "cm")) +
-  scale_fill_manual(values = c("$S^2_{n-1}$" = "firebrick", "$S^2_{n}$" = "steelblue")) +
+  scale_fill_manual(values = c("$S^2_{n-1}$" = "gray39", "$S^2_{n}$" = "steelblue")) +
   labs(x = "Estimate", y = "Density", fill = "Estimator")
 ```
 
@@ -217,10 +217,13 @@ I considered making a table to show the average bias, precision, and MSE across 
 
 ## Simulation over various sample sizes
 Consider the effect of the sample size have on these results. Provide a graphical and numerical summary of what happens as $n$ increases -- say $n=20$, $n=50$, $n=100$, and $n=500$. Does the result in your initial simulation hold across samples? Or, do things change as the sample size changes? Ensure to set your randomization seed.
- 
-
 
 **Solution**
+
+```{r}
+
+
+```
 
 ## Simulation
 You have written code to draw a random sample of various sizes from each distribution, and to calculate and store the calculated estimates. Rework your code to produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do you have a guess about their distribution? Ensure to set your randomization seed. 
