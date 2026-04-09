@@ -371,6 +371,8 @@ data |>
 
 
 
+NOTE!! Use plot from 2.2 for this, with a larger n (probs like 500). Use a boxplot to answer question 2.2 (or don't, but justify. box plot if i have time.)
+
 ## Bootstrap
 Now, take *one* sample from each distribution. Instead of drawing a random sample at each iteration, sample *with replacement* from the one sample. Produce a density plot of the $s_{n-1}^2$ and $s_{n}^2$. Do we get roughly the same information as we do in the full simulation? Try this over several seeds -- what do you notice? Ensure to set your randomization seed.
 
