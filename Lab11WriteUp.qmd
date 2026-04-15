@@ -542,7 +542,11 @@ knitr::kable(digits = 3)
 ```
 
 
-We see a *very* similar result to what we saw without bootstrapping. This is extremely good evidence for bootstrapping, the results are almost identical.
+We see a *very* similar result to what we saw without bootstrapping. This is extremely good evidence for bootstrapping, the results are almost identical. This held when I plotted it for several random seeds.
 
 # Executive Summary
 Summarize the work you've done here to provide a brief (200-300 word) summary of the simulation and the results using your work in Lab 11. Your summary should be professional, clear, and all claims should be corroborated with statistical support.
+
+**Solution**
+
+We have several areas for which we can draw conclusions from in this lab. First, we found that the $S^2_n-1$ estimator is slightly, but very reliably, less biased than the $S^2_n$ estimator over several known distributions. We also saw that regardless of the distribution, the estimators do converge to the correct value with large n (@fig-n). This confirms what we've seen in class about the law of large numbers. The distribution of the estimators with large n, simulated over 4 distributions, was always right-skewed (@fig-estimators1). The fundamental nature of this estimator suggests that the distribution of both the $S^2_n-1$ and the $S^2_n$ estimators follow some known right-skewed distribution, such as the Gamma distribution. The $S^2_n-1$ and the $S^2_n$ likely follow the same type/class of distributions, but with slightly different parameters, as the estimators are doing essentially the same thing but with a slightly different "correction factor". Overall, this lab was a poignant demonstration of what we've learned in class, and it is easy to see how the principles we've derived here hold for any general estimator and sample distributuion. 
